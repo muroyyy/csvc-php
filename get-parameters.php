@@ -1,5 +1,4 @@
 <?php
-<?php
   error_log('Retrieving settings');
   require 'aws.phar';
 
