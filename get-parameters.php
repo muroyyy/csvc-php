@@ -1,28 +1,29 @@
 <?php
-  # Retrieve settings from Parameter Store
+<?php
   error_log('Retrieving settings');
   require 'aws.phar';
-  
+
   $az = file_get_contents('http://169.254.169.254/latest/meta-data/placement/availability-zone');
   $region = substr($az, 0, -1);
   $ssm_client = new Aws\Ssm\SsmClient([
      'version' => 'latest',
      'region'  => $region
   ]);
-  
+
   try {
-    # Retrieve settings from Parameter Store
-    $result = $ssm_client->GetParametersByPath(['Path' => '/msri/', 'WithDecryption' => true]);
+    // Retrieve the JSON parameter from Parameter Store
+    $result = $ssm_client->getParameter([
+      'Name' => '/test',
+      'WithDecryption' => true
+    ]);
 
-    # Extract individual parameters
-    foreach($result['Parameters'] as $p) {
-        $values[$p['Name']] = $p['Value'];
-    }
+    // Decode the JSON value
+    $json = json_decode($result['Parameter']['Value'], true);
 
-    $ep = $values['/msri/endpoint'];
-    $un = $values['/msri/username'];
-    $pw = $values['/msri/password'];
-    $db = $values['/msri/database'];
+    $ep = $json['rds_endpoint'];
+    $db = $json['db_name'];
+    $un = $json['username'];
+    $pw = $json['password'];
   }
   catch (Exception $e) {
     $ep = '';
@@ -30,5 +31,4 @@
     $un = '';
     $pw = '';
   }
-
 ?>
