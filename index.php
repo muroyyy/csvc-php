@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Example Site;!</title>
+	<title>MSRI Global Social Data Portal</title>
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 
