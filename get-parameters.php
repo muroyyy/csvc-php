@@ -11,7 +11,7 @@
   use Aws\Exception\AwsException;
 
   $az = file_get_contents('http://169.254.169.254/latest/meta-data/placement/availability-zone');
-  $region = substr($az, 0, -1);
+  $region = 'ap-southeast-1';
 
   $secretsManagerClient = new SecretsManagerClient([
     'version' => 'latest',
